@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Django Task Manager</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 700px;
+            margin: 60px auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .add-form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .add-form input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .add-form button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            background: #2563eb;
+            color: white;
+            cursor: pointer;
+        }
+
+        .add-form button:hover {
+            background: #1d4ed8;
+        }
+
+        .task {
+            background: white;
+            padding: 18px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .task-title {
+            font-size: 17px;
+        }
+
+        .completed {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .actions a {
+            margin-left: 12px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .complete {
+            color: #16a34a;
+        }
+
+        .delete {
+            color: #dc2626;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777;
+            margin-top: 30px;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <h1>🚀 Django Task Manager</h1>
+
+    <p class="subtitle">
+        Django + GitHub + Azure CI/CD Demo
+    </p>
+
+
+    <!-- Add Task -->
+
+    <form method="POST"
+          action="{% url 'add_task' %}"
+          class="add-form">
+
+        {% csrf_token %}
+
+        <input
+            type="text"
+            name="title"
+            placeholder="Enter a new task..."
+            required
+        >
+
+        <button type="submit">
+            Add Task
+        </button>
+
+    </form>
+
+
+    <!-- Task List -->
+
+    {% for task in tasks %}
+
+        <div class="task">
+
+            <span class="task-title
+                {% if task.completed %}completed{% endif %}">
+
+                {{ task.title }}
+
+            </span>
+
+
+            <div class="actions">
+
+                <a
+                    href="{% url 'complete_task' task.id %}"
+                    class="complete">
+
+                    {% if task.completed %}
+                        Undo
+                    {% else %}
+                        Complete
+                    {% endif %}
+
+                </a>
+
+
+                <a
+                    href="{% url 'delete_task' task.id %}"
+                    class="delete">
+
+                    Delete
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+    {% empty %}
+
+        <p class="empty">
+            No tasks yet. Add your first task!
+        </p>
+
+    {% endfor %}
+
+
+</div>
+
+</body>
+
+</html>
