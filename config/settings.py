@@ -31,6 +31,10 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://django-task-manager-ggephrbezfzbcav.centralindia-01.azurewebsites.net",
+]
+
 # Application definition
 
 INSTALLED_APPS = [
