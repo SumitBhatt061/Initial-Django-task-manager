@@ -78,15 +78,23 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
 
+
+
+import os
+
+if os.environ.get('WEBSITE_HOSTNAME'):
+    DATABASE_NAME = '/home/site/wwwroot/db.sqlite3'
+else:
+    DATABASE_NAME = BASE_DIR / 'db.sqlite3'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/home/site/wwwroot/db.sqlite3',
+        'NAME': DATABASE_NAME,
     }
 }
 
 
-print("DATABASE PATH:", DATABASES["default"]["NAME"])
 
 
 # Password validation
