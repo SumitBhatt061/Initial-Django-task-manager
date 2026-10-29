@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/6.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,15 +25,20 @@ SECRET_KEY = 'django-insecure-ng0ko*32gk$j5$43p63&s672^g=6v=p^qu%*8p@5bhd8+#epkf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+AZURE_HOSTNAME = os.environ.get("WEBSITE_HOSTNAME")
+
 ALLOWED_HOSTS = [
-    "django-task-manager-ggephrbezfzbcav.centralindia-01.azurewebsites.net",
+    AZURE_HOSTNAME,
     "localhost",
     "127.0.0.1",
 ]
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://django-task-manager-ggephrbezfzbcav.centralindia-01.azurewebsites.net",
-]
+if AZURE_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS = [
+        f"https://{AZURE_HOSTNAME}",
+    ]
+else:
+    CSRF_TRUSTED_ORIGINS = []
 
 # Application definition
 
@@ -84,7 +89,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 
-import os
+
 
 if os.environ.get('WEBSITE_HOSTNAME'):
     DATABASE_NAME = '/home/site/wwwroot/db.sqlite3'
